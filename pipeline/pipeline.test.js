@@ -58,3 +58,14 @@ test("X の投稿文を本文とリプライに分け、投稿リンクを作る
   assert.equal(d.reply, "続きはこちら {URL}");
   assert.equal(intentUrl("a b#c"), "https://x.com/intent/post?text=a%20b%23c");
 });
+
+import { handoffHtml, PAID_LINE } from "./note-handoff.js";
+
+test("note 受け渡しページに日付・本文・有料ラインの目印が入る", () => {
+  const html = handoffHtml({ date: "2026-11-03", title: "T<1>", free: "## 無料\n本文", paid: "## 有料\n分析", tags: ["フィジカルAI"] });
+  assert.match(html, /name="note-draft-date" content="2026-11-03"/);
+  assert.match(html, /id="note-title">T&lt;1&gt;</);
+  assert.ok(html.includes(PAID_LINE));
+  assert.match(html, /#フィジカルAI/);
+  assert.match(handoffHtml(null), /まだ原稿がありません/);
+});

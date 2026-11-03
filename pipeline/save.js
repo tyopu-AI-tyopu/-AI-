@@ -57,6 +57,7 @@ function main() {
   const publicBody = config.commitPaidContent && art.paid ? `${art.free}\n\n${PAID_MARKER}\n\n${art.paid}` : art.free;
   writeFile(p("content", "daily", `${date}.md`), toFrontmatter(meta) + "\n" + publicBody + "\n");
   writeFile(p("out", "note", `${date}.md`), noteDraft(art, config));
+  writeFile(p("out", "note", `${date}.json`), JSON.stringify({ date, ...art }, null, 2) + "\n");
   console.log(`保存しました: content/daily/${date}.md（公開用）, out/note/${date}.md（note用の完全版）`);
 }
 

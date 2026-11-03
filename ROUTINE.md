@@ -94,6 +94,7 @@ REPLY:
 
 ```sh
 node pipeline/save.js <作業用ファイルのパス>
+node pipeline/note-handoff.js
 node pipeline/xpost.js
 npm test
 npm run build
@@ -101,8 +102,19 @@ npm run build
 
 - `content/daily/<日付>.md` に公開用の記事（無料部分のみ）が、`out/note/<日付>.md` に note 用の完全版が保存されます。
 - `out/` はコミットしません。有料部分をリポジトリに載せないためです。
+- `node pipeline/note-handoff.js` は、note 原稿の受け渡しページ `out/note/handoff.html` を作ります。次の「原稿を受け渡しページに載せる」で使います。
 - `node pipeline/xpost.js` は、X の投稿文から投稿画面を開くリンクを作り、最終報告に貼る Markdown を出力します。文字数が上限を超えるとエラーになるので、短くしてやり直します。
 - テストかビルドが失敗したら、原因を直してからやり直します。
+
+## 4.5 原稿を受け渡しページに載せる
+
+持ち主のパソコンの定期タスク（[`NOTE_POSTING.md`](NOTE_POSTING.md)）が、このページから原稿を読み取り、note に下書き保存します。
+
+1. Artifact ツールで `action: "read"`、`url: "https://claude.ai/artifact/3LotAWRYeUCFpZA6UkS1Vz"` を実行します（上書きの前に読む決まりがあるため）。
+2. Artifact ツールで `file_path: "out/note/handoff.html"`、`url: "https://claude.ai/artifact/3LotAWRYeUCFpZA6UkS1Vz"` を指定して公開（上書き）します。新しい Artifact は作りません。`icon` は指定しません。
+3. 失敗した場合は、その理由を最終報告に書きます。記事の公開（次の手順）は続けます。
+
+このページは非公開で、持ち主だけが開けます。有料部分を含むので、共有設定は変えません。
 
 ## 5. 公開する
 
@@ -120,7 +132,7 @@ push すると GitHub Actions がサイトを作り直し、GitHub Pages に公�
 最後の返信には、次の内容をこの順で書きます（持ち主はこの返信を見て note と X に投稿します）。
 
 1. 今日のタイトルと、取り上げたニュースの件数
-2. push したコミット（失敗した場合はその理由）
+2. push したコミット（失敗した場合はその理由）と、受け渡しページを更新できたか
 3. `node pipeline/xpost.js` の出力を**そのまま**（X の投稿リンクと投稿文）
 4. `out/note/<日付>.md` の**全文**をコードブロックで。1行目が note のタイトル、それ以降が本文です。
 

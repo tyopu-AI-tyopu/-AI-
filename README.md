@@ -47,6 +47,12 @@ Claude API キーは不要です（記事は Routine の中で Claude が書き�
 
 note には記事を自動投稿できる公式APIがないため、投稿だけは手作業です。
 
+## note への下書き保存の自動化（パソコン側）
+
+毎朝の Routine は、note 用の完全版原稿を非公開の受け渡しページ（https://claude.ai/artifact/3LotAWRYeUCFpZA6UkS1Vz 、持ち主だけが開けます）に載せます。
+持ち主のパソコンの Claude デスクトップアプリの定期タスクが、Claude in Chrome で note を操作し、この原稿を**下書き保存**します。手順は [`NOTE_POSTING.md`](NOTE_POSTING.md) にあります。
+有料エリアの設定と公開は、持ち主が行います。
+
 ## ローカルで動かす
 
 ```sh
